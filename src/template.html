@@ -6,6 +6,25 @@
   <title>How's the Weather?</title>
 </head>
 <body>
-  
+  <form>
+    <label for="location" class="location">
+      City
+      <input type="text" id="location" placeholder="e.g., Tokyo, Dallas">
+    </label>
+    <fieldset>
+      <legend>Units</legend>
+      <div class="unit-options">
+        <input type="radio" name="unit" id="si" value="us" checked>
+        <label for="si">SI (&deg;F, mph)</label>
+        <input type="radio" name="unit" id="metric" value="metric">
+        <label for="metric">Metric (&deg;C, kph)</label>
+        <input type="radio" name="unit" id="uk" value="uk">
+        <label for="uk">UK (&deg;C, mph)</label>
+      </div>
+    </fieldset>
+    <button class="submit">get weather</button>
+  </form>
+  <div class="weather-info">
+  </div>
 </body>
 </html>
