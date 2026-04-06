@@ -13,12 +13,11 @@ async function getInfo (city, unit) {
 }
 
 async function checkWeather (city, unit) {
-  const deg = unit === 'f' ? 'us' : 'metric'
   const {
     currentConditions: current
     , days
     , resolvedAddress: location
-  } = await getInfo(city, deg)
+  } = await getInfo(city, unit)
   const {
     conditions
     , feelslike
@@ -44,3 +43,37 @@ async function checkWeather (city, unit) {
     , windspeed
   }
 }
+
+const creator = {
+  element (tag) { return document.createElement(tag) }
+}
+const form = new FormData(document.querySelector('form'))
+const submitButton = document.querySelector('.submit')
+const tags = [
+  'div'
+  , 'p'
+  , 'img'
+  , 'span'
+]
+
+tags.forEach((tag) => {
+  creator[tag] = function () {
+    return this.element(tag)
+  }
+})
+
+async function displayWeather () {
+  // const city = form.get('location')
+  // const unit = form.get('unit')
+  const city = document.getElementById('location')
+  const unit = document.querySelector('input[type="radio"]:checked')
+  if (city.value === '') return
+  const data = await checkWeather(city.value, unit.value)
+  city.value = ''
+  console.log(data)
+}
+
+submitButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  displayWeather()
+})
