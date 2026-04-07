@@ -1,4 +1,5 @@
 import './style.css'
+import d2d from 'degrees-to-direction'
 
 async function getInfo (city, unit) {
   try {
@@ -47,12 +48,12 @@ async function checkWeather (city, unit) {
 const creator = {
   element (tag) { return document.createElement(tag) }
 }
-const form = new FormData(document.querySelector('form'))
 const submitButton = document.querySelector('.submit')
 const tags = [
   'div'
-  , 'p'
+  , 'h2'
   , 'img'
+  , 'p'
   , 'span'
 ]
 
@@ -63,14 +64,47 @@ tags.forEach((tag) => {
 })
 
 async function displayWeather () {
-  // const city = form.get('location')
-  // const unit = form.get('unit')
   const city = document.getElementById('location')
-  const unit = document.querySelector('input[type="radio"]:checked')
+  const unit = document.getElementById('unit')
   if (city.value === '') return
   const data = await checkWeather(city.value, unit.value)
-  city.value = ''
   console.log(data)
+
+  city.value = ''
+
+  const container = document.querySelector('.weather-info')
+  const card = creator.div()
+  const title = creator.h2()
+  const temp = creator.p()
+  const tempSpan = creator.span()
+  const description = creator.p()
+  const icon = creator.img()
+  const extremes = creator.p()
+  const hiSpan = creator.span()
+  const loSpan = creator.span()
+  const wind = creator.p()
+  const windSpdSpan = creator.span()
+  const windUnitSpan = creator.span()
+  const precip = creator.p()
+
+  temp.append(tempSpan, '°')
+  extremes.append('H: ', hiSpan, '° | L: ', loSpan, '°')
+  wind.append('Wind: ', windSpdSpan, windUnitSpan, ' ', d2d(data.winddir))
+  precip.append('Chance of precipitation: ', data.precipprob, '%')
+  card.append(title, temp, description, icon, extremes, wind, precip)
+  container.textContent = ''
+  container.append(card)
+
+  title.textContent = data.location
+  tempSpan.textContent = data.temp
+  description.textContent = data.conditions
+  hiSpan.textContent = data.max
+  loSpan.textContent = data.min
+  windSpdSpan.textContent = data.windspeed
+  windUnitSpan.textContent = unit.value === 'metric' ? 'km/h' : 'mph'
+  
+  import(`./icons/${data.icon}.svg`).then((res) => icon.src = res.default)
+  icon.setAttribute('alt', `a weather icon`)
 }
 
 submitButton.addEventListener('click', (e) => {

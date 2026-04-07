@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js"
-    , "dev": "webpack serve --config webpack.dev.js"
-    , "deploy": "git switch gh-pages && git merge main --no-edit && npm run build && git add dist -f && git commit -m 'Deployment commit' && git subtree push --prefix dist origin gh-pages && git checkout main"
-    , "first-deploy": "git branch gh-pages && npm run deploy"
-    , "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack serve --config webpack.dev.js",
+    "deploy": "git switch gh-pages && git merge main --no-edit && npm run build && git add dist -f && git commit -m 'Deployment commit' && git subtree push --prefix dist origin gh-pages && git checkout main",
+    "first-deploy": "git branch gh-pages && npm run deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,8 @@
     "webpack-cli": "^7.0.2",
     "webpack-dev-server": "^5.2.3",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "degrees-to-direction": "^1.1.1"
   }
 }
