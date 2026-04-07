@@ -1,5 +1,6 @@
 import './style.css'
 import d2d from 'degrees-to-direction'
+import { getGif } from './gif-grabber.js'
 
 async function getInfo (city, unit) {
   try {
@@ -69,6 +70,7 @@ async function displayWeather () {
   const data = await checkWeather(city.value, unit.value)
   const description = creator.p()
   const extremes = creator.p()
+  const gif = await getGif(`weather ${data.icon}`)
   const hiSpan = creator.span()
   const icon = creator.img()
   const loSpan = creator.span()
@@ -83,6 +85,7 @@ async function displayWeather () {
   console.log(data)
   city.value = ''
   container.textContent = ''
+  container.style.background = `url(${gif})`
   description.textContent = data.conditions
   hiSpan.textContent = data.max
   loSpan.textContent = data.min
